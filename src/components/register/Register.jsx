@@ -7,21 +7,30 @@ import { useState } from "react";
 const Register = () => {
 
     const [registerError, setRegisterError] = useState('');
+    const [success, setSucces] = useState('')
 
     const handleSubmit = e => {
         e.preventDefault();
 
         const email = e.target.email.value;
         const password = e.target.password.value;
-        console.log(email, password)
+        const accept = e.target.terms.ckecked;
+       
+        console.log(email, password,accept)
         // set register error 
         setRegisterError('')
+        setSucces('')
 
+        if(!accept){
+            setRegisterError('please accept our terms condition')
+            return;
+        }
         // create user
 
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 console.log(result.user)
+                setSucces('registretion succesfully')
             })
             .catch(error => {
                 console.error(error)
@@ -29,6 +38,7 @@ const Register = () => {
             })
 
     }
+   
 
     return (
         <div className="text-center ">
@@ -55,15 +65,27 @@ const Register = () => {
                                             <span className="label-text">Password</span>
                                         </label>
                                         <input type="password" name="password" placeholder="password" className="input input-bordered" />
+<div >
+<input className="mt-3 " type="checkbox" name="terms" id="terms" />
+<label htmlFor="terms"> Accept our Terms and condition</label>
+
+</div>
+
+                                      
+
                                         <label className="label">
                                             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                         </label>
                                     </div>
+                                    
                                     <div className="form-control mt-6">
                                         <input className="btn btn-success" type="submit" value="Register" />
                                     </div>
                                     {
-                                        registerError && <p>{registerError}</p>
+                                        registerError && <p className="text-green-500 text-2xl font-extrabold">{registerError}</p>
+                                    }
+                                    {
+                                        success && <p className="text-green-500 text-2xl font-extrabold">{success}</p>
                                     }
                                 </div>
                             </div>
