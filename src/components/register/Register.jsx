@@ -3,6 +3,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../../firebase/Firebase.config";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Register = () => {
 
@@ -14,14 +15,14 @@ const Register = () => {
 
         const email = e.target.email.value;
         const password = e.target.password.value;
-        const accept = e.target.terms.ckecked;
-       
-        console.log(email, password,accept)
+        const accept = e.target.terms.value;
+
+        console.log(email, password, accept)
         // set register error 
         setRegisterError('')
         setSucces('')
 
-        if(!accept){
+        if (!accept) {
             setRegisterError('please accept our terms condition')
             return;
         }
@@ -38,7 +39,7 @@ const Register = () => {
             })
 
     }
-   
+
 
     return (
         <div className="text-center ">
@@ -65,19 +66,19 @@ const Register = () => {
                                             <span className="label-text">Password</span>
                                         </label>
                                         <input type="password" name="password" placeholder="password" className="input input-bordered" />
-<div >
-<input className="mt-3 " type="checkbox" name="terms" id="terms" />
-<label htmlFor="terms"> Accept our Terms and condition</label>
+                                        <div >
+                                            <input className="mt-3 " type="checkbox" name="terms" id="terms" />
+                                            <label htmlFor="terms"> Accept our Terms and condition</label>
 
-</div>
+                                        </div>
 
-                                      
+
 
                                         <label className="label">
                                             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                         </label>
                                     </div>
-                                    
+
                                     <div className="form-control mt-6">
                                         <input className="btn btn-success" type="submit" value="Register" />
                                     </div>
@@ -87,6 +88,7 @@ const Register = () => {
                                     {
                                         success && <p className="text-green-500 text-2xl font-extrabold">{success}</p>
                                     }
+                                    <p>All ready have Account <Link to="/login" className="btn">please login</Link></p>
                                 </div>
                             </div>
                         </div>

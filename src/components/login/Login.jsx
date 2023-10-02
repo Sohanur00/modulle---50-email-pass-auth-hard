@@ -1,16 +1,47 @@
+// import { useState } from "react";
+
+import { signInWithEmailAndPassword } from "@firebase/auth";
+import auth from "../../firebase/Firebase.config";
+import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 const Login = () => {
+    const [registerError, setRegisterError] = useState('');
+    const [success, setSucces] = useState('')
+    const emailReff =useRef(null)
 
-const handleLogin = e =>{
+    const handleLogin = e => {
 
-e.preventDefault();
-const email = e.target.email.value;
-const password = e.target.password.value;
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
 
-console.log(email,password)
+        console.log(email, password)
+        // set register error 
+        setRegisterError('')
+        setSucces('')
 
-}
+        // add validetion 
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then(result => {
+                console.log(result.user)
+                setSucces('Login succesfully')
+            })
+            .catch(error => {
+                console.error(error)
+                setRegisterError(error.message)
+            })
+
+    }
+
+    const handleForget = e => {
+
+        console.log('plaese cheack your email')
+
+    }
+    
 
     return (
         <div >
@@ -29,7 +60,14 @@ console.log(email,password)
                                     <label className="label">
                                         <span className="label-text">Email</span>
                                     </label>
-                                    <input type="email" name="email" placeholder="email" className="input input-bordered" />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        placeholder="email"
+                                        className="input input-bordered"
+                                        ref={emailReff }
+                                        
+                                        />
                                 </div>
                                 <div className="form-control">
                                     <label className="label">
@@ -37,7 +75,7 @@ console.log(email,password)
                                     </label>
                                     <input type="password" name="password" placeholder="password" className="input input-bordered" />
                                     <label className="label">
-                                        <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                        <a onClick={handleForget} href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                     </label>
                                 </div>
                                 <div className="form-control mt-6">
@@ -45,7 +83,13 @@ console.log(email,password)
                                 </div>
 
                             </form>
-
+                            {
+                                registerError && <p className="text-green-500 text-2xl font-extrabold">{registerError}</p>
+                            }
+                            {
+                                success && <p className="text-green-500 text-2xl font-extrabold">{success}</p>
+                            }
+                            <p>new to go register <Link to='/register'> <span className="btn">register</span></Link></p>
                         </div>
                     </div>
                 </div>
